@@ -64,6 +64,6 @@ jobs:
         with:
           host: ${{ secrets.SEECLEVERLY_HOST }}
           username: ${{ secrets.SEECLEVERLY_USER }}
-          key: ${{ seecrets.SEECLEVERLY_KEY }}
+          key: ${{ secrets.SEECLEVERLY_KEY }}
           script: whoami
         
