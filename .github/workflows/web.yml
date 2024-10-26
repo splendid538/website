@@ -59,11 +59,11 @@ jobs:
       #   working-directory: ./web
       #   run: npm run build
 
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.1.0
-        with:
-          host: ${{ secrets.SEECLEVERLY_HOST }}
-          username: ${{ secrets.SEECLEVERLY_USER }}
-          key: ${{ secrets.SEECLEVERLY_KEY }}
-          script: whoami
-        
+      - name: Create SSH key
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_ed25519
+          echo "${{ secrets.SEECLEVERLY_KEY }}" > ~/.ssh/id_ed25519
+          echo "${{ secrets.SEECLEVERLY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+      - name: Deploy with rsync
+        run: ssh -t ${{ secrets.SEECLEVERLY_USER }}@${{ secrets.SEECLEVERLY_HOST }} -t 'whoami'
+      
