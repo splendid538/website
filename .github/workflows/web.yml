@@ -62,8 +62,8 @@ jobs:
       - name: executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ SEECLEVERLY_HOST }}
-          username: ${{ SEECLEVERLY_USER }}
-          key: ${{ SEECLEVERLY_KEY }}
+          host: ${{ secrets.SEECLEVERLY_HOST }}
+          username: ${{ secrets.SEECLEVERLY_USER }}
+          key: ${{ seecrets.SEECLEVERLY_KEY }}
           script: whoami
         
