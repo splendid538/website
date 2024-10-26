@@ -65,5 +65,5 @@ jobs:
           echo "${{ secrets.SEECLEVERLY_KEY }}" > ~/.ssh/id_ed25519
           echo "${{ secrets.SEECLEVERLY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: ssh -vvvvvvvvvv -t ${{ secrets.SEECLEVERLY_USER }}@${{ secrets.SEECLEVERLY_HOST }} -t 'whoami'
+        run: ssh -vvvvvvvvvv -o IPQoS=none -t ${{ secrets.SEECLEVERLY_USER }}@${{ secrets.SEECLEVERLY_HOST }} -t 'whoami'
       
