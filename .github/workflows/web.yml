@@ -27,51 +27,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
+      #   with:
+      #     lfs: true
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: ${{ env.NODE_VERSION }}
+
+      # - name: Install Hugo
+      #   run: |
+      #     curl -LO "https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz"
+      #     tar -xvf hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz
+      #     sudo mv hugo /usr/local/bin/
+      #     rm hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz
+      #     hugo version
+
+      # - name: Install Go
+      #   run: |
+      #     curl -LO "https://dl.google.com/go/go${{ env.GO_VERSION }}.linux-amd64.tar.gz"
+      #     sudo tar -C /usr/local -xzf go${{ env.GO_VERSION }}.linux-amd64.tar.gz
+      #     echo "export PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
+      #     rm go${{ env.GO_VERSION }}.linux-amd64.tar.gz
+      #     go version
+
+      # - name: Install npm dependencies
+      #   working-directory: ./web
+      #   run: npm install
+
+      # - name: Publish to GitHub Pages
+      #   working-directory: ./web
+      #   run: npm run build
+
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.1.0
         with:
-          lfs: true
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install Hugo
-        run: |
-          curl -LO "https://github.com/gohugoio/hugo/releases/download/v${{ env.HUGO_VERSION }}/hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz"
-          tar -xvf hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz
-          sudo mv hugo /usr/local/bin/
-          rm hugo_extended_${{ env.HUGO_VERSION }}_Linux-64bit.tar.gz
-          hugo version
-
-      - name: Install Go
-        run: |
-          curl -LO "https://dl.google.com/go/go${{ env.GO_VERSION }}.linux-amd64.tar.gz"
-          sudo tar -C /usr/local -xzf go${{ env.GO_VERSION }}.linux-amd64.tar.gz
-          echo "export PATH=$PATH:/usr/local/go/bin" >> $GITHUB_ENV
-          rm go${{ env.GO_VERSION }}.linux-amd64.tar.gz
-          go version
-
-      - name: Install npm dependencies
-        working-directory: ./web
-        run: npm install
-
-      - name: Publish to GitHub Pages
-        working-directory: ./web
-        run: npm run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./web/public
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          host: ${{ SEECLEVERLY_HOST }}
+          username: ${{ SEECLEVERLY_USER }}
+          key: ${{ SEECLEVERLY_KEY }}
+          script: whoami
+        
